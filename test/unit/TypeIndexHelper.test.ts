@@ -1,8 +1,15 @@
-import inruptSOLIDClient, { Thing } from '@inrupt/solid-client';
-// import { TypeIndexHelper } from '/../src/utils/TypeIndexHelper'; // Replace with the actual import statement for your API class
+// import inruptSOLIDClient, { Thing } from '@inrupt/solid-client';
+// import { TypeIndexHelper } from '../../src/utils/TypeIndexHelper'; // Replace with the actual import statement for your API class
 // import { Session } from "@inrupt/solid-client-authn-browser";
+// import { readFileSync } from 'fs';
+// import { namedNode } from '@rdfjs/data-model';
+import inruptSOLIDClient, { Thing } from '@inrupt/solid-client';
 import { readFileSync } from 'fs';
 import { namedNode } from '@rdfjs/data-model';
+import { TypeIndexHelper } from '../../src/TypeIndexHelper'; // Replace 'your-module' with the actual module name
+import { __forClass, __privateTypeIndex, __publicTypeIndex, __solid_instance, __solid_instance_container } from '../../src/constants';
+import { BOOKMARK } from '@inrupt/vocab-common-rdf';
+
 
 export function loadFixture<T = string>(name: string): T {
     const raw = readFileSync(`${__dirname}/fixtures/${name}`).toString();
@@ -10,118 +17,254 @@ export function loadFixture<T = string>(name: string): T {
     return /\.json(ld)$/.test(name) ? JSON.parse(raw) : raw;
 }
 
-
-describe('getFromTypeIndex', () => {
-    // let session: jest.Mocked<Session>;
-
-    beforeEach(() => {
-
-        // session = {
-        //     fetch: jest.fn(),
-        //     info: {
-        //         webId: "https://fake-pod.net/profile/card#me",
-        //         isLoggedIn: true,
-        //         sessionId: "123",
-        //         clientAppId: "https://clientAppId.com",
-        //         expirationDate: new Date().getDate() + 1000000000,
-        //     },
-        //     logout: jest.fn(),
-        //     login: jest.fn(),
-        // } as unknown as jest.Mocked<Session>;
-    });
-
-    // it('The getMeProfile method should return meProfile', async () => {
-    //     // Arrange
-    //     const mock_Fetch = jest.spyOn(session, "fetch").mockReturnValue(Promise.resolve(fetchResponse("profile.ttl")));
-
-    //     const mockGetThing = jest.spyOn(inruptSOLIDClient, 'getThing').mockResolvedValue(loadFixture("me.json"));
-
-    //     // Act
-    //     const result = await TypeIndexHelper.getMeProfile(session);
-
-    //     // Assert
-    //     expect(result).toEqual(loadFixture("me.json"));
-
-    //     // Tear down
-    //     mock_Fetch.mockRestore();
-    //     mockGetThing.mockRestore();
-    // })
+let publicTypeIndexPath = "https://fake-pod.net/settings/publicTypeIndex.ttl";
+let privateTypeIndexPath = "https://fake-pod.net/settings/privateTypeIndex.ttl";
+let emptyTypeIndexPath = "https://fake-pod.net/settings/emptyTypeIndex.ttl";
+let indexUrl = "https://fake-pod.net/module/index.ttl";
+let session: jest.Mocked<any>;
 
 
-    // it("The getTypeIndex method should return typeIndex", async () => {
-    //     // Arrange
+// beforeAll(() => console.log('1 - beforeAll'));
 
-    //     const mock_Fetch = jest.spyOn(session, "fetch").mockReturnValue(Promise.resolve(fetchResponse("profile.ttl")));
-    //     const mockGetThing = jest.spyOn(inruptSOLIDClient, 'getThing').mockResolvedValue(loadFixture("me.json"));
-    //     const mock_getNamedNode = jest.spyOn(inruptSOLIDClient, 'getNamedNode').mockResolvedValue(namedNode("https://fake-pod.net/settings/privateTypeIndex.ttl") as never);
+// afterAll(() => console.log('1 - afterAll'));
 
-    //     // Act
-    //     const result = await TypeIndexHelper.getTypeIndex(session, true);
+beforeEach(() => {
+    session = {
+        fetch: jest.fn(),
+        info: {
+            webId: "https://fake-pod.net/profile/card#me",
+            isLoggedIn: true,
+            sessionId: "123",
+            clientAppId: "https://clientAppId.com",
+            expirationDate: new Date().getDate() + 1000000000,
+        },
+        logout: jest.fn(),
+        login: jest.fn(),
+    } as unknown as jest.Mocked<any>;
+});
 
-    //     // Assert
-    //     expect(result).toEqual(namedNode("https://fake-pod.net/settings/privateTypeIndex.ttl"));
+afterEach(() => { jest.restoreAllMocks() });
 
-    //     // Tear down
-    //     mock_Fetch.mockRestore();
-    //     mockGetThing.mockRestore();
-    //     mock_getNamedNode.mockRestore();
+describe('getMeProfile', () => {
 
-    // })
+    it('Should return meProfile', async () => {
+        // Arrange
+        const mock_Fetch = jest.spyOn(session, "fetch").mockResolvedValue(fetchResponse("profile.ttl"));
 
+        const mockGetThing = jest.spyOn(inruptSOLIDClient, 'getThing').mockResolvedValue(loadFixture("me.json"));
 
-    // it("The getFromTypeIndex method should return registeries from typeIndex", async () => {
+        // Act
+        const result = await TypeIndexHelper.getMeProfile(session.info.webId, session.fetch);
 
-    //     // Arrange
-    //     const mock_getTypeIndex = jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValue(namedNode("https://fake-pod.net/settings/privateTypeIndex.ttl") as never);
+        // Assert
+        expect(result).toEqual(loadFixture("me.json"));
 
-    //     const mock_Fetch = jest.spyOn(session, "fetch").mockReturnValue(Promise.resolve(fetchResponse("privateTypeIndex.ttl")));
-
-    //     // Act
-    //     const res = await TypeIndexHelper.getFromTypeIndex(session, true);
-
-    //     // Assert
-    //     expect(res.length).toBeGreaterThan(0);
-
-    //     // Tear down
-    //     mock_getTypeIndex.mockRestore()
-    //     mock_Fetch.mockRestore()
-    // })
-
-    // it("The registerInTypeIndex method should register in typeIndex", async () => {
-    //     const mock_getTypeIndex = jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValue(namedNode("https://fake-pod.net/settings/privateTypeIndex.ttl") as never);
-    //     const mock_Fetch = jest.spyOn(session, "fetch").mockReturnValue(Promise.resolve(fetchResponse("privateTypeIndex.ttl")));
-
-    //     const mock_setThing = jest.spyOn(inruptSOLIDClient, "setThing").mockReturnValue(loadFixture("privateTypeIndexDS.json"));
-    //     const mock_saveSolidDatasetAt = jest.spyOn(inruptSOLIDClient, "saveSolidDatasetAt").mockReturnValue(loadFixture("privateTypeIndexDS.json"));
-
-
-    //     const res = await TypeIndexHelper.registerInTypeIndex(session, "https://fake-pod.net/settings/privateTypeIndex.ttl", true)
-    //     // Assert
-
-    //     expect(res).toEqual(loadFixture("privateTypeIndexDS.json"));
-
-    //     // Tear down
-    //     mock_getTypeIndex.mockRestore();
-    //     mock_Fetch.mockRestore();
-    //     mock_setThing.mockRestore();
-    //     mock_saveSolidDatasetAt.mockRestore();
-    // })
-
-    // it("The createTypeIndex method should create typeIndex", async () => {
-    //     // Arrange
-    //     const mock_Fetch = jest.spyOn(session, "fetch").mockReturnValue(Promise.resolve(fetchResponse("privateTypeIndex.ttl")));
-
-    //     // Act
-    //     const res = await TypeIndexHelper.createTypeIndex(session, "https://fake-pod.net/settings/privateTypeIndex.ttl");
-
-    //     // Assert
-    //     expect(res).toBeDefined();
-
-    //     mock_Fetch.mockRestore();
-    // })
+        // Tear down
+        mock_Fetch.mockRestore();
+        mockGetThing.mockRestore();
+    })
 });
 
 
+describe("getTypeIndex", () => {
+
+    it("should return the typeIndex if it already exists in the profileMe object", async () => {
+        // Arrange
+        jest.spyOn(session, "fetch").mockReturnValue(Promise.resolve(fetchResponse("profile.ttl")));
+        jest.spyOn(inruptSOLIDClient, 'getThing').mockResolvedValue(loadFixture("me.json"));
+        jest.spyOn(inruptSOLIDClient, 'getNamedNode').mockResolvedValue(namedNode(privateTypeIndexPath) as never);
+
+        // Act
+        const result = await TypeIndexHelper.getTypeIndex(session.info.webId, session.fetch, true);
+
+        // Assert
+        expect(result).toEqual(namedNode(privateTypeIndexPath));
+    })
+    it("should create a typeIndex if it doesn't exist in the profileMe object", async () => {
+        // Arrange
+        jest.spyOn(session, "fetch").mockResolvedValue(fetchResponse("profile.ttl"));
+        jest.spyOn(inruptSOLIDClient, 'getThing').mockResolvedValue(loadFixture("me.json"));
+        jest.spyOn(inruptSOLIDClient, 'getNamedNode').mockReturnValue(null);
+        jest.spyOn(inruptSOLIDClient, 'addNamedNode').mockResolvedValue(loadFixture("me.json"));
+        jest.spyOn(inruptSOLIDClient, 'setThing').mockResolvedValue(loadFixture("privateTypeIndexDS.json"));
+        jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValue(loadFixture("privateTypeIndexDS.json"));
+
+        // Act
+        const result = await TypeIndexHelper.getTypeIndex(session.info.webId, session.fetch, true);
+
+        // Assert
+        expect(session.fetch).toHaveBeenCalledWith(privateTypeIndexPath, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'text/turtle',
+            },
+            body: `@prefix solid: <http://www.w3.org/ns/solid/terms#>.\n\n<> a solid:TypeIndex, solid:UnlistedDocument.`,
+        });
+
+        expect(result).toEqual(namedNode(privateTypeIndexPath));
+    })
+    // Add more test cases as needed
+});
+
+describe('getFromTypeIndex', () => {
+    // afterEach(() => {
+    //     jest.restoreAllMocks();
+    // });
+    it('should return an empty array if typeIndex is null', async () => {
+        const isPrivate = true;
+
+        jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValueOnce(namedNode(emptyTypeIndexPath));
+        jest.spyOn(session, "fetch").mockReturnValue(Promise.resolve(fetchResponse("emptyTypeIndex.ttl")));
+
+        const result = await TypeIndexHelper.getFromTypeIndex(session.info.webId, session.fetch, isPrivate);
+
+        expect(result).toEqual([]);
+    });
+    it('should return an array of instances', async () => {
+        const isPrivate = true;
+
+        jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValueOnce(namedNode(privateTypeIndexPath));
+        jest.spyOn(session, "fetch").mockReturnValue(Promise.resolve(fetchResponse("privateTypeIndex.ttl")));
+
+        const result = await TypeIndexHelper.getFromTypeIndex(session.info.webId, session.fetch, isPrivate);
+
+        expect(result.length).toBeGreaterThan(0);
+    });
+
+});
+
+describe("registerInTypeIndex", () => {
+    // afterEach(() => {
+    //     jest.restoreAllMocks();
+    // });
+    test('Register in typeIndex - Private typeIndex', async () => {
+        const isPrivate = true;
+
+        jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValueOnce(namedNode(privateTypeIndexPath));
+        jest.spyOn(inruptSOLIDClient, "getSolidDataset").mockResolvedValue(loadFixture("privateTypeIndexDS.json"));
+        jest.spyOn(inruptSOLIDClient, 'setThing').mockReturnValueOnce(loadFixture("privateTypeIndexDS.json"));
+        jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValueOnce(loadFixture("privateTypeIndexDS.json"));
+
+        const res = await TypeIndexHelper.registerInTypeIndex(session.info.webId, session.fetch, indexUrl, isPrivate);
+
+        expect(res).toEqual(loadFixture("privateTypeIndexDS.json"));
+        expect(TypeIndexHelper.getTypeIndex).toHaveBeenCalledWith(session.info.webId, session.fetch, isPrivate);
+        expect(inruptSOLIDClient.getSolidDataset).toHaveBeenCalledWith(privateTypeIndexPath, { fetch: session.fetch });
+        expect(inruptSOLIDClient.setThing).toHaveBeenCalled();
+        expect(inruptSOLIDClient.saveSolidDatasetAt).toHaveBeenCalledWith(privateTypeIndexPath, loadFixture("privateTypeIndexDS.json"), { fetch: session.fetch });
+    });
+
+    test('Register in typeIndex - Public typeIndex', async () => {
+        const isPrivate = false;
+
+        jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValueOnce(namedNode(privateTypeIndexPath));
+        jest.spyOn(inruptSOLIDClient, "getSolidDataset").mockResolvedValue(loadFixture("publicTypeIndexDS.json"));
+        jest.spyOn(inruptSOLIDClient, 'setThing').mockReturnValueOnce(loadFixture("publicTypeIndexDS.json"));
+        jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValueOnce(loadFixture("publicTypeIndexDS.json"));
+
+        const res = await TypeIndexHelper.registerInTypeIndex(session.info.webId, session.fetch, indexUrl, isPrivate);
+
+        expect(res).toEqual(loadFixture("publicTypeIndexDS.json"));
+        expect(TypeIndexHelper.getTypeIndex).toHaveBeenCalledWith(session.info.webId, session.fetch, isPrivate);
+        expect(inruptSOLIDClient.getSolidDataset).toHaveBeenCalledWith(privateTypeIndexPath, { fetch: session.fetch });
+        expect(inruptSOLIDClient.setThing).toHaveBeenCalled();
+        expect(inruptSOLIDClient.saveSolidDatasetAt).toHaveBeenCalledWith(privateTypeIndexPath, loadFixture("publicTypeIndexDS.json"), { fetch: session.fetch });
+    });
+})
+
+describe('createTypeIndex', () => {
+
+    it('Should create a typeIndex and return the solidDataset', async () => {
+
+        jest.spyOn(inruptSOLIDClient, "getSolidDataset").mockResolvedValue(loadFixture("privateTypeIndex.ttl"));
+
+        const res = await TypeIndexHelper.createTypeIndex(session.fetch, privateTypeIndexPath);
+
+        expect(session.fetch).toHaveBeenCalledWith(privateTypeIndexPath, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'text/turtle',
+            },
+            body: `@prefix solid: <http://www.w3.org/ns/solid/terms#>.\n\n<> a solid:TypeIndex, solid:UnlistedDocument.`,
+        });
+
+        expect(inruptSOLIDClient.getSolidDataset).toHaveBeenCalledWith(privateTypeIndexPath, { fetch: session.fetch });
+        expect(res).toBeDefined();
+    });
+
+
+    it("should Create type index", async () => {
+        const fetch = jest.fn();
+
+        await TypeIndexHelper.createTypeIndex(fetch, privateTypeIndexPath);
+
+        expect(fetch).toHaveBeenCalledWith(privateTypeIndexPath, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "text/turtle",
+            },
+            body: `@prefix solid: <http://www.w3.org/ns/solid/terms#>.\n\n<> a solid:TypeIndex, solid:UnlistedDocument.`,
+        });
+    });
+
+    it('should return undefined if an error occurs', async () => {
+        const fetchMock = jest.fn(() => { throw new Error('Some error'); });
+
+        const result = await TypeIndexHelper.createTypeIndex(fetchMock, privateTypeIndexPath);
+
+        expect(result).toBeUndefined();
+    });
+})
+
+
+describe('getTypeIndexFileName', () => {
+    it('should return "privateTypeIndex" if isPrivate is true', () => {
+        const result = TypeIndexHelper.getTypeIndexFileName(true);
+        expect(result).toBe("privateTypeIndex");
+    });
+
+    it('should return "publicTypeIndex" if isPrivate is false', () => {
+        const result = TypeIndexHelper.getTypeIndexFileName(false);
+        expect(result).toBe("publicTypeIndex");
+    });
+});
+
+describe("getTypeIndexPredicate", () => {
+    it("returns __privateTypeIndex if isPrivate is true", () => {
+        const isPrivate = true;
+        const result = TypeIndexHelper.getTypeIndexPredicate(isPrivate);
+        expect(result).toBe(__privateTypeIndex);
+    });
+
+    it("returns __publicTypeIndex if isPrivate is false", () => {
+        const isPrivate = false;
+        const result = TypeIndexHelper.getTypeIndexPredicate(isPrivate);
+        expect(result).toBe(__publicTypeIndex);
+    });
+});
+
+
+describe("getTypeIndexURL", () => {
+    it("should return the correct URL when given a valid webId and typeIndexFileName", () => {
+        const webId = "https://example.com/profile/user123";
+        const typeIndexFileName = "typeIndex";
+        const expectedURL = "https://example.com/settings/typeIndex.ttl";
+
+        const result = TypeIndexHelper.getTypeIndexURL(webId, typeIndexFileName);
+
+        expect(result).toEqual(expectedURL);
+    });
+
+    it("should return the correct URL when given a webId with a trailing slash and typeIndexFileName", () => {
+        const webId = "https://example.com/profile/user123/";
+        const typeIndexFileName = "typeIndex";
+        const expectedURL = "https://example.com/settings/typeIndex.ttl";
+
+        const result = TypeIndexHelper.getTypeIndexURL(webId, typeIndexFileName);
+
+        expect(result).toEqual(expectedURL);
+    });
+});
 
 const fetchResponse = (fileName: string): Promise<Response> => {
     return Promise.resolve({

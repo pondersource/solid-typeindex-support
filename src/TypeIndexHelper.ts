@@ -52,6 +52,7 @@ export class TypeIndexHelper {
      */
     public static async getTypeIndex(webId: string, fetch: any, isPrivate: boolean): Promise<NamedNode<string>> {
         const profileMe = await this.getMeProfile(webId, fetch)
+        console.log("🚀 ~ file: TypeIndexHelper.ts:55 ~ TypeIndexHelper ~ getTypeIndex ~ profileMe:", profileMe)
 
         const typeIndexPredicate = TypeIndexHelper.getTypeIndexPredicate(isPrivate);
         const typeIndexFileName = TypeIndexHelper.getTypeIndexFileName(isPrivate);

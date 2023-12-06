@@ -1,0 +1,8 @@
+@prefix : <#>.
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+@prefix bookm: <http://www.w3.org/2002/01/bookmark#>.
+@prefix schem: <https://schema.org/>.
+@prefix mov: </movies/>.
+@prefix bookmark: </bookmarks/>.
+
+<> a solid:TypeIndex, solid:UnlistedDocument.

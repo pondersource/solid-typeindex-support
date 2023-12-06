@@ -1,7 +1,7 @@
 [
     {
         "type": "Subject",
-        "url": "https://solid-dm.solidcommunity.net/settings/privateTypeIndex.ttl",
+        "url": "https://fake-pod.net/settings/privateTypeIndex.ttl",
         "predicates": {
             "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": {
                 "namedNodes": [
@@ -13,7 +13,7 @@
     },
     {
         "type": "Subject",
-        "url": "https://solid-dm.solidcommunity.net/settings/privateTypeIndex.ttl#2bdc3da9-e0f0-48b5-b1aa-8123bb468a92",
+        "url": "https://fake-pod.net/settings/privateTypeIndex.ttl#2bdc3da9-e0f0-48b5-b1aa-8123bb468a92",
         "predicates": {
             "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": {
                 "namedNodes": [
@@ -27,14 +27,14 @@
             },
             "http://www.w3.org/ns/solid/terms#instanceContainer": {
                 "namedNodes": [
-                    "https://solid-dm.solidcommunity.net/movies/"
+                    "https://fake-pod.net/movies/"
                 ]
             }
         }
     },
     {
         "type": "Subject",
-        "url": "https://solid-dm.solidcommunity.net/settings/privateTypeIndex.ttl#5677e892-fad5-4039-8108-4f4ed2640b98",
+        "url": "https://fake-pod.net/settings/privateTypeIndex.ttl#5677e892-fad5-4039-8108-4f4ed2640b98",
         "predicates": {
             "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": {
                 "namedNodes": [
@@ -48,14 +48,14 @@
             },
             "http://www.w3.org/ns/solid/terms#instanceContainer": {
                 "namedNodes": [
-                    "https://solid-dm.solidcommunity.net/movies/"
+                    "https://fake-pod.net/movies/"
                 ]
             }
         }
     },
     {
         "type": "Subject",
-        "url": "https://solid-dm.solidcommunity.net/settings/privateTypeIndex.ttl#bookmarks_registery",
+        "url": "https://fake-pod.net/settings/privateTypeIndex.ttl#bookmarks_registery",
         "predicates": {
             "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": {
                 "namedNodes": [
@@ -69,14 +69,14 @@
             },
             "http://www.w3.org/ns/solid/terms#instance": {
                 "namedNodes": [
-                    "https://solid-dm.solidcommunity.net/bookmarks/index.ttl"
+                    "https://fake-pod.net/bookmarks/index.ttl"
                 ]
             }
         }
     },
     {
         "type": "Subject",
-        "url": "https://solid-dm.solidcommunity.net/settings/privateTypeIndex.ttl#5677e892-fad5-4039-8108-4f4ed2640b99",
+        "url": "https://fake-pod.net/settings/privateTypeIndex.ttl#5677e892-fad5-4039-8108-4f4ed2640b99",
         "predicates": {
             "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": {
                 "namedNodes": [
@@ -90,7 +90,7 @@
             },
             "http://www.w3.org/ns/solid/terms#instanceContainer": {
                 "namedNodes": [
-                    "https://solid-dm.solidcommunity.net/bookmarks/"
+                    "https://fake-pod.net/bookmarks/"
                 ]
             }
         }

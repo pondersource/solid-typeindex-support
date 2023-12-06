@@ -1,6 +1,6 @@
 {
   "type": "Subject",
-  "url": "https://solid-dm.solidcommunity.net/profile/card#me",
+  "url": "https://fake-pod.net/profile/card#me",
   "predicates": {
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": {
       "namedNodes": [
@@ -9,28 +9,28 @@
       ]
     },
     "http://www.w3.org/ns/ldp#inbox": {
-      "namedNodes": ["https://solid-dm.solidcommunity.net/inbox/"]
+      "namedNodes": ["https://fake-pod.net/inbox/"]
     },
     "http://www.w3.org/ns/pim/space#preferencesFile": {
-      "namedNodes": ["https://solid-dm.solidcommunity.net/settings/prefs.ttl"]
+      "namedNodes": ["https://fake-pod.net/settings/prefs.ttl"]
     },
     "http://www.w3.org/ns/pim/space#storage": {
-      "namedNodes": ["https://solid-dm.solidcommunity.net/"]
+      "namedNodes": ["https://fake-pod.net/"]
     },
     "http://www.w3.org/ns/solid/terms#account": {
-      "namedNodes": ["https://solid-dm.solidcommunity.net/"]
+      "namedNodes": ["https://fake-pod.net/"]
     },
     "http://www.w3.org/ns/solid/terms#oidcIssuer": {
       "namedNodes": ["https://solidcommunity.net"]
     },
     "http://www.w3.org/ns/solid/terms#privateTypeIndex": {
       "namedNodes": [
-        "https://solid-dm.solidcommunity.net/settings/privateTypeIndex.ttl"
+        "https://fake-pod.net/settings/privateTypeIndex.ttl"
       ]
     },
     "http://www.w3.org/ns/solid/terms#publicTypeIndex": {
       "namedNodes": [
-        "https://solid-dm.solidcommunity.net/settings/publicTypeIndex.ttl"
+        "https://fake-pod.net/settings/publicTypeIndex.ttl"
       ]
     },
     "http://xmlns.com/foaf/0.1/name": {
