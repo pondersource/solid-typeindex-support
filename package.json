@@ -2,13 +2,41 @@
   "name": "solid-typeindex-support",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsc -w",
+    "clean": "rm -rf dist/",
+    "build": "npm run clean && tsc",
+    "test": "jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pondersource/solid-typeindex-support.git"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "keywords": [
+    "typescript",
+    "npm",
+    "template",
+    "ts"
+  ],
+  "author": "Reza Soltani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pondersource/solid-typeindex-support/issues"
+  },
+  "homepage": "https://github.com/pondersource/solid-typeindex-support#readme",
   "devDependencies": {
     "typescript": "^5.3.2"
   }
