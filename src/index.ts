@@ -1,0 +1,1 @@
+export { TypeIndexHelper } from "./TypeIndexHelper"
