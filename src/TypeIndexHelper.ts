@@ -26,6 +26,7 @@ export class TypeIndexHelper {
      * @param {string} webId - The WebID of the user.
      * @param {any} fetch - The authenticated fetch function to use for HTTP requests.
      * @return {Promise<ThingPersisted | null>} - The user profile or null if not found.
+     * @internal
      */
     public static async getMeProfile(webId: string, fetch: any): Promise<ThingPersisted | null> {
 
@@ -57,6 +58,7 @@ export class TypeIndexHelper {
      * @param {any} fetch - The authenticated fetch function to use for HTTP requests.
      * @param {boolean} isPrivate - Indicates whether the typeIndex is private or not.
      * @return {Promise<NamedNode<string>>} A Promise that resolves with the typeIndex.
+     * @internal
      */
     public static async getTypeIndex(webId: string, fetch: any, isPrivate: boolean): Promise<NamedNode<string>> {
         const profileMe = await this.getMeProfile(webId, fetch)
@@ -177,6 +179,7 @@ export class TypeIndexHelper {
      * @param {any} fetch - The authenticated fetch function to use for HTTP requests.
      * @param {string} typeIndexUrl - The URL of the typeIndex.
      * @return {Promise<SolidDataset | undefined>} A promise that resolves to the created typeIndex SolidDataset, or undefined if there was an error.
+     * @internal
      */
     public static async createTypeIndex(fetch: any, typeIndexUrl: string): Promise<SolidDataset | undefined> {
         try {
@@ -199,6 +202,7 @@ export class TypeIndexHelper {
      *
      * @param {boolean} isPrivate - Indicates whether the typeIndex file is private or public.
      * @return {"privateTypeIndex" | "publicTypeIndex"} - The name of the typeIndex file.
+     * @internal
      */
     public static getTypeIndexFileName(isPrivate: boolean): "privateTypeIndex" | "publicTypeIndex" {
         return isPrivate ? "privateTypeIndex" : "publicTypeIndex";
@@ -209,6 +213,7 @@ export class TypeIndexHelper {
      *
      * @param {boolean} isPrivate - A flag indicating whether the typeIndex should be private.
      * @return {string} The typeIndex predicate.
+     * @internal
      */
     public static getTypeIndexPredicate(isPrivate: boolean): string {
         return isPrivate ? __privateTypeIndex : __publicTypeIndex;
@@ -220,6 +225,7 @@ export class TypeIndexHelper {
      * @param {string} webId - The webId used to construct the URL.
      * @param {string} typeIndexFileName - The name of the typeIndex file.
      * @return {string} The URL for the typeIndex file.
+     * @internal
      */
     public static getTypeIndexURL(webId: string, typeIndexFileName: string): string {
         return `${webId.split("/profile")[0]}/settings/${typeIndexFileName}.ttl`;
