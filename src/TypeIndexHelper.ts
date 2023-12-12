@@ -12,10 +12,10 @@ import {
     setThing
 } from "@inrupt/solid-client";
 import {
-    BOOKMARK, RDF,
+    RDF,
 } from "@inrupt/vocab-common-rdf";
 import { namedNode } from '@rdfjs/data-model';
-import { __Bookmark, __foafPerson, __forClass, __privateTypeIndex, __publicTypeIndex, __schemaPerson, __solidTypeRegistration, __solid_instance, __solid_instance_container } from "./constants";
+import { __foafPerson, __forClass, __privateTypeIndex, __publicTypeIndex, __schemaPerson, __solidTypeRegistration, __solid_instance, __solid_instance_container } from "./constants";
 import { NamedNode } from '@rdfjs/types'
 
 export class TypeIndexHelper {
@@ -62,7 +62,6 @@ export class TypeIndexHelper {
      */
     public static async getTypeIndex(webId: string, fetch: any, isPrivate: boolean): Promise<NamedNode<string>> {
         const profileMe = await this.getMeProfile(webId, fetch)
-        console.log("🚀 ~ file: TypeIndexHelper.ts:55 ~ TypeIndexHelper ~ getTypeIndex ~ profileMe:", profileMe)
 
         const typeIndexPredicate = TypeIndexHelper.getTypeIndexPredicate(isPrivate);
         const typeIndexFileName = TypeIndexHelper.getTypeIndexFileName(isPrivate);
@@ -108,7 +107,7 @@ export class TypeIndexHelper {
      * @param {true} isPrivate - Indicates if the instances are private.
      * @return {Promise<string[]>} - A promise that resolves to an array of instance URLs.
      */
-    public static async getFromTypeIndex(webId: string, fetch: any, isPrivate: true): Promise<string[]> {
+    public static async getFromTypeIndex(webId: string, fetch: any, rdfClass: string, isPrivate: boolean): Promise<string[]> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
         const typeIndexDS = await getSolidDataset(typeIndex?.value, { fetch: fetch });
@@ -122,7 +121,7 @@ export class TypeIndexHelper {
         allRegisteries.forEach(registery => {
             const forClass = getNamedNode(registery, __forClass)
 
-            if (forClass?.value === BOOKMARK.Bookmark) {
+            if (forClass?.value === rdfClass) {
 
                 const instance = getNamedNode(registery, __solid_instance)?.value
                 const instanceContainer = getNamedNode(registery, __solid_instance_container)?.value
@@ -157,18 +156,18 @@ export class TypeIndexHelper {
      * @param {boolean} isPrivate - Flag indicating if the typeIndex is private.
      * @return {Promise<SolidDataset>} The updated typeIndex dataset.
      */
-    public static async registerInTypeIndex(webId: string, fetch: any, indexUrl: string, isPrivate: boolean): Promise<SolidDataset> {
+    public static async registerInTypeIndex(webId: string, registeryTitle: string, rdfClass: string, fetch: any, indexUrl: string, isPrivate: boolean): Promise<SolidDataset> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
         const typeIndexDS = await getSolidDataset(typeIndex?.value, { fetch: fetch });
 
-        const bookmarksRegistery = buildThing(createThing({ name: "bookmarks_registery" }))
-            .addNamedNode(__forClass, namedNode(__Bookmark))
+        const registery = buildThing(createThing({ name: registeryTitle }))
+            .addNamedNode(__forClass, namedNode(rdfClass))
             .addNamedNode(__solid_instance, namedNode(indexUrl))
             .addUrl(RDF.type, __solidTypeRegistration)
             .build();
 
-        const updatedTypeIndexDS = setThing(typeIndexDS, bookmarksRegistery);
+        const updatedTypeIndexDS = setThing(typeIndexDS, registery);
 
         return await saveSolidDatasetAt(typeIndex?.value, updatedTypeIndexDS, { fetch: fetch });
     }
