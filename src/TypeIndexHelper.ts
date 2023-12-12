@@ -107,7 +107,7 @@ export class TypeIndexHelper {
      * @param {true} isPrivate - Indicates if the instances are private.
      * @return {Promise<string[]>} - A promise that resolves to an array of instance URLs.
      */
-    public static async getFromTypeIndex(webId: string, fetch: any, rdfClass: string, isPrivate: boolean): Promise<string[]> {
+    public static async getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: true): Promise<string[]> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
         const typeIndexDS = await getSolidDataset(typeIndex?.value, { fetch: fetch });
@@ -156,18 +156,18 @@ export class TypeIndexHelper {
      * @param {boolean} isPrivate - Flag indicating if the typeIndex is private.
      * @return {Promise<SolidDataset>} The updated typeIndex dataset.
      */
-    public static async registerInTypeIndex(webId: string, registeryTitle: string, rdfClass: string, fetch: any, indexUrl: string, isPrivate: boolean): Promise<SolidDataset> {
+    public static async registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, indexUrl: string, isPrivate: boolean): Promise<SolidDataset> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
         const typeIndexDS = await getSolidDataset(typeIndex?.value, { fetch: fetch });
 
-        const registery = buildThing(createThing({ name: registeryTitle }))
+        const registeryThing = buildThing(createThing({ name: typeRegistrationTitle }))
             .addNamedNode(__forClass, namedNode(rdfClass))
             .addNamedNode(__solid_instance, namedNode(indexUrl))
             .addUrl(RDF.type, __solidTypeRegistration)
             .build();
 
-        const updatedTypeIndexDS = setThing(typeIndexDS, registery);
+        const updatedTypeIndexDS = setThing(typeIndexDS, registeryThing);
 
         return await saveSolidDatasetAt(typeIndex?.value, updatedTypeIndexDS, { fetch: fetch });
     }
