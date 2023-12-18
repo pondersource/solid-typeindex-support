@@ -1,5 +1,7 @@
 # solid-typeindex-support
 
+[See Docs](https://pondersource.github.io/solid-typeindex-support/)
+
 ## Development
 
 ```bash
