@@ -19,22 +19,25 @@ import { __foafPerson, __forClass, __privateTypeIndex, __publicTypeIndex, __sche
 import { NamedNode } from '@rdfjs/types'
 
 /**
- * TypeIndexHelper provides helper methods for working with type indexes in Solid.
+ * TypeIndexHelper provides helper methods for working with typeIndexes in Solid.
  * This includes methods for getting and updating a user's public and private
- * type indexes.
+ * typeIndexes.
+ * @public
  */
 export class TypeIndexHelper {
 
     /**
-     * Retrieves the profile of the logged-in user.
+     * Retrieves the profile for the given WebID.
+     * If no profile exists, creates a default profile.
      *
-     * @param {string} webId - The WebID of the user.
-     * @param {any} fetch - The authenticated fetch function to use for HTTP requests.
-     * @return {Promise<ThingPersisted | null>} - The user profile or null if not found.
-     * @internal
+     * @param webId - The WebID URL to retrieve the profile for
+     * @param fetch - The authenticated fetch function
+     * @returns The profile Thing for the given WebID, or null if not found
      */
-    public static async getMeProfile(webId: string, fetch: any): Promise<ThingPersisted | null> {
-
+    public static async getMeProfile(
+        webId: string,
+        fetch: any
+    ): Promise<ThingPersisted | null> {
         const profileDS = await getSolidDataset(webId, { fetch: fetch });
 
         let profileMe = getThing(profileDS, webId);
@@ -47,45 +50,60 @@ export class TypeIndexHelper {
 
             const updatedProfile = setThing(profileDS, profileMeThing);
 
-            const updatedProfileDS = await saveSolidDatasetAt(webId!, updatedProfile, { fetch: fetch });
+            const updatedProfileDS = await saveSolidDatasetAt(
+                webId!,
+                updatedProfile,
+                { fetch: fetch }
+            );
 
             profileMe = getThing(updatedProfileDS, webId);
-
         }
 
         return profileMe;
     }
 
     /**
-     * Retrieves the typeIndex for a given webId.
+     * Retrieves the typeIndexe for the given WebID, creating one if it does not exist.
      *
-     * @param {string} webId - The WebID of the user.
-     * @param {any} fetch - The authenticated fetch function to use for HTTP requests.
-     * @param {boolean} isPrivate - Indicates whether the typeIndex is private or not.
-     * @return {Promise<NamedNode<string>>} A Promise that resolves with the typeIndex.
-     * @internal
+     * @param webId - The WebID of the user
+     * @param fetch - The authenticated fetch function to use for requests
+     * @param isPrivate - Whether to get the private or public typeIndexe
+     * @returns A NamedNode containing the typeIndexe URL
      */
-    public static async getTypeIndex(webId: string, fetch: any, isPrivate: boolean): Promise<NamedNode<string>> {
-        const profileMe = await this.getMeProfile(webId, fetch)
+    public static async getTypeIndex(
+        webId: string,
+        fetch: any,
+        isPrivate: boolean
+    ): Promise<NamedNode<string>> {
+        const profileMe = await this.getMeProfile(webId, fetch);
 
         const typeIndexPredicate = TypeIndexHelper.getTypeIndexPredicate(isPrivate);
         const typeIndexFileName = TypeIndexHelper.getTypeIndexFileName(isPrivate);
-        const typeIndexUrl = TypeIndexHelper.getTypeIndexURL(webId, typeIndexFileName);
+        const typeIndexUrl = TypeIndexHelper.getTypeIndexURL(
+            webId,
+            typeIndexFileName
+        );
 
         if (profileMe) {
-            let typeIndex = getNamedNode(profileMe, typeIndexPredicate)
+            let typeIndex = getNamedNode(profileMe, typeIndexPredicate);
 
             if (typeIndex) return typeIndex;
 
             const typeIndexDS = await this.createTypeIndex(fetch, typeIndexUrl);
 
-            const updatedProfileMe = addNamedNode(profileMe, typeIndexPredicate, namedNode(typeIndexUrl));
+            const updatedProfileMe = addNamedNode(
+                profileMe,
+                typeIndexPredicate,
+                namedNode(typeIndexUrl)
+            );
 
             const updatedTypeIndexDS = setThing(typeIndexDS!, updatedProfileMe);
 
-            await saveSolidDatasetAt(typeIndexUrl, updatedTypeIndexDS, { fetch: fetch });
+            await saveSolidDatasetAt(typeIndexUrl, updatedTypeIndexDS, {
+                fetch: fetch,
+            });
 
-            return namedNode(typeIndexUrl)
+            return namedNode(typeIndexUrl);
         } else {
             const typeIndexDS = await this.createTypeIndex(fetch, typeIndexUrl);
             const profileDS = await getSolidDataset(webId, { fetch: fetch });
@@ -100,17 +118,18 @@ export class TypeIndexHelper {
 
             await saveSolidDatasetAt(webId, updatedProfileDS, { fetch: fetch });
 
-            return namedNode(typeIndexUrl)
+            return namedNode(typeIndexUrl);
         }
     }
 
     /**
-     * Retrieves a list of instances from the typeIndex.
+     * Retrieves all instances of the given RDF class from the user's typeIndexe.
      *
-     * @param {string} webId - The WebID of the user.
-     * @param {any} fetch - The authenticated fetch function to use for HTTP requests.
-     * @param {true} isPrivate - Indicates if the instances are private.
-     * @return {Promise<string[]>} - A promise that resolves to an array of instance URLs.
+     * @param webId - The user's WebID
+     * @param rdfClass - The RDF class to retrieve instances for
+     * @param fetch - Authenticated fetch function
+     * @param isPrivate - Whether the typeIndexe is private or public
+     * @returns Promise resolving to an array of instance URLs
      */
     public static async getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: true): Promise<string[]> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
@@ -152,21 +171,35 @@ export class TypeIndexHelper {
         return [...new Set([...instances, ...innerInstances])]
     }
 
+
     /**
-     * Registers the given webId in the typeIndex.
+     * Registers a type registration in the user's typeIndexe.
      *
-     * @param {string} webId - The WebID of the user.
-     * @param {any} fetch - The authenticated fetch function to use for HTTP requests.
-     * @param {string} indexUrl - The URL of the typeIndex.
-     * @param {boolean} isPrivate - Flag indicating if the typeIndex is private.
-     * @return {Promise<SolidDataset>} The updated typeIndex dataset.
+     * @param webId - The WebID of the user
+     * @param typeRegistrationTitle - The title to use for the type registration
+     * @param rdfClass - The RDF class that this registration is for
+     * @param fetch - The authenticated fetch function
+     * @param indexUrl - The URL of the index being registered
+     * @param isPrivate - Whether to register in the private or public typeIndexe
+     * @returns A Promise resolving to the updated typeIndexe dataset
      */
-    public static async registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, indexUrl: string, isPrivate: boolean): Promise<SolidDataset> {
+    public static async registerInTypeIndex(
+        webId: string,
+        typeRegistrationTitle: string,
+        rdfClass: string,
+        fetch: any,
+        indexUrl: string,
+        isPrivate: boolean
+    ): Promise<SolidDataset> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
-        const typeIndexDS = await getSolidDataset(typeIndex?.value, { fetch: fetch });
+        const typeIndexDS = await getSolidDataset(typeIndex?.value, {
+            fetch: fetch,
+        });
 
-        const registeryThing = buildThing(createThing({ name: typeRegistrationTitle }))
+        const registeryThing = buildThing(
+            createThing({ name: typeRegistrationTitle })
+        )
             .addNamedNode(__forClass, namedNode(rdfClass))
             .addNamedNode(__solid_instance, namedNode(indexUrl))
             .addUrl(RDF.type, __solidTypeRegistration)
@@ -174,64 +207,71 @@ export class TypeIndexHelper {
 
         const updatedTypeIndexDS = setThing(typeIndexDS, registeryThing);
 
-        return await saveSolidDatasetAt(typeIndex?.value, updatedTypeIndexDS, { fetch: fetch });
+        return await saveSolidDatasetAt(typeIndex?.value, updatedTypeIndexDS, {
+            fetch: fetch,
+        });
     }
 
+
     /**
-     * Creates a typeIndex using the provided fetch function and typeIndex URL.
+     * Creates a new empty TypeIndex file at the given indexUrl.
      *
-     * @param {any} fetch - The authenticated fetch function to use for HTTP requests.
-     * @param {string} typeIndexUrl - The URL of the typeIndex.
-     * @return {Promise<SolidDataset | undefined>} A promise that resolves to the created typeIndex SolidDataset, or undefined if there was an error.
-     * @internal
+     * @param fetch - Authenticated fetch function
+     * @param typeIndexUrl - URL where the new TypeIndex file will be created
+     * @returns A Promise resolving to the created TypeIndex dataset if successful, or undefined if there was an error.
      */
-    public static async createTypeIndex(fetch: any, typeIndexUrl: string): Promise<SolidDataset | undefined> {
+    public static async createTypeIndex(
+        fetch: any,
+        typeIndexUrl: string
+    ): Promise<SolidDataset | undefined> {
         try {
             await fetch(typeIndexUrl, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "text/turtle",
                 },
-                body: `@prefix solid: <http://www.w3.org/ns/solid/terms#>.\n\n<> a solid:TypeIndex, solid:UnlistedDocument.`
-            })
+                body: `@prefix solid: <http://www.w3.org/ns/solid/terms#>.\n\n<> a solid:TypeIndex, solid:UnlistedDocument.`,
+            });
 
-            return await getSolidDataset(typeIndexUrl, { fetch: fetch })
-        } catch (error) {
-
-        }
+            return await getSolidDataset(typeIndexUrl, { fetch: fetch });
+        } catch (error) { }
     }
 
     /**
-     * Returns the name of the typeIndex file based on the given isPrivate flag.
+     * Returns the name of the typeIndexe file based on the isPrivate flag.
      *
-     * @param {boolean} isPrivate - Indicates whether the typeIndex file is private or public.
-     * @return {"privateTypeIndex" | "publicTypeIndex"} - The name of the typeIndex file.
-     * @internal
+     * @param isPrivate - Whether the typeIndexe file should be private or public.
+     * @returns The name of the typeIndexe file - either "privateTypeIndex" or "publicTypeIndex".
      */
-    public static getTypeIndexFileName(isPrivate: boolean): "privateTypeIndex" | "publicTypeIndex" {
+    public static getTypeIndexFileName(
+        isPrivate: boolean
+    ): "privateTypeIndex" | "publicTypeIndex" {
         return isPrivate ? "privateTypeIndex" : "publicTypeIndex";
     }
 
+
     /**
-     * Returns the typeIndex predicate based on the given isPrivate flag.
+     * Returns the predicate to use for the typeIndexe based on whether it is private or public.
      *
-     * @param {boolean} isPrivate - A flag indicating whether the typeIndex should be private.
-     * @return {string} The typeIndex predicate.
-     * @internal
+     * @param isPrivate - Whether the typeIndexe is private or public.
+     * @returns The predicate to use - either __privateTypeIndex or __publicTypeIndex.
      */
     public static getTypeIndexPredicate(isPrivate: boolean): string {
         return isPrivate ? __privateTypeIndex : __publicTypeIndex;
     }
 
+
     /**
-     * Returns the URL for the typeIndex file based on the given webId and typeIndexFileName.
+     * Generates the URL for the given user's typeIndexe file.
      *
-     * @param {string} webId - The webId used to construct the URL.
-     * @param {string} typeIndexFileName - The name of the typeIndex file.
-     * @return {string} The URL for the typeIndex file.
-     * @internal
+     * @param webId - The user's WebID URL
+     * @param typeIndexFileName - The name of the typeIndexe file
+     * @returns The full URL for the typeIndexe file in the user's /settings/ folder
      */
-    public static getTypeIndexURL(webId: string, typeIndexFileName: string): string {
+    public static getTypeIndexURL(
+        webId: string,
+        typeIndexFileName: string
+    ): string {
         return `${webId.split("/profile")[0]}/settings/${typeIndexFileName}.ttl`;
     }
 }
