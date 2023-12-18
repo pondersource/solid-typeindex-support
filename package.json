@@ -8,6 +8,9 @@
     "dev": "tsc -w",
     "clean": "rimraf dist/",
     "build": "npm run clean && tsc",
+    "api-report": "api-extractor run",
+    "api-docs": "api-documenter markdown -i./dist/api -o./docs",
+    "build-with-docs": "npm run build && npm run api-report && npm run api-docs",  
     "test": "jest"
   },
   "repository": {
