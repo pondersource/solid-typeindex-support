@@ -1,1 +1,4 @@
-export { TypeIndexHelper } from "./TypeIndexHelper"
+/**
+ * Exports the TypeIndexHelper type from the TypeIndexHelper module.
+ */
+export { TypeIndexHelper } from "./TypeIndexHelper";
