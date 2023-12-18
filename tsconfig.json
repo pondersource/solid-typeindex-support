@@ -4,8 +4,10 @@
     "module": "ESNext",
     "target": "es6",
     "declaration": true,
+    "declarationMap": true,
     "moduleResolution": "Node",
     "esModuleInterop": true,
+    "stripInternal": true ,
     "strict": true
   },
   "types": ["node"],
