@@ -33,6 +33,7 @@ export class TypeIndexHelper {
      * @param webId - The WebID URL to retrieve the profile for
      * @param fetch - The authenticated fetch function
      * @returns The profile Thing for the given WebID, or null if not found
+     * @internal
      */
     public static async getMeProfile(
         webId: string,
@@ -69,6 +70,7 @@ export class TypeIndexHelper {
      * @param fetch - The authenticated fetch function to use for requests
      * @param isPrivate - Whether to get the private or public typeIndexe
      * @returns A NamedNode containing the typeIndexe URL
+     * @internal
      */
     public static async getTypeIndex(
         webId: string,
@@ -219,6 +221,7 @@ export class TypeIndexHelper {
      * @param fetch - Authenticated fetch function
      * @param typeIndexUrl - URL where the new TypeIndex file will be created
      * @returns A Promise resolving to the created TypeIndex dataset if successful, or undefined if there was an error.
+     * @internal
      */
     public static async createTypeIndex(
         fetch: any,
@@ -242,6 +245,7 @@ export class TypeIndexHelper {
      *
      * @param isPrivate - Whether the typeIndexe file should be private or public.
      * @returns The name of the typeIndexe file - either "privateTypeIndex" or "publicTypeIndex".
+     * @internal
      */
     public static getTypeIndexFileName(
         isPrivate: boolean
@@ -255,6 +259,7 @@ export class TypeIndexHelper {
      *
      * @param isPrivate - Whether the typeIndexe is private or public.
      * @returns The predicate to use - either __privateTypeIndex or __publicTypeIndex.
+     * @internal
      */
     public static getTypeIndexPredicate(isPrivate: boolean): string {
         return isPrivate ? __privateTypeIndex : __publicTypeIndex;
@@ -267,6 +272,7 @@ export class TypeIndexHelper {
      * @param webId - The user's WebID URL
      * @param typeIndexFileName - The name of the typeIndexe file
      * @returns The full URL for the typeIndexe file in the user's /settings/ folder
+     * @internal
      */
     public static getTypeIndexURL(
         webId: string,
