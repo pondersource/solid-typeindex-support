@@ -8,5 +8,5 @@
 
 |  Class | Description |
 |  --- | --- |
-|  [TypeIndexHelper](./solid-typeindex-support.typeindexhelper.md) |  |
+|  [TypeIndexHelper](./solid-typeindex-support.typeindexhelper.md) | TypeIndexHelper provides helper methods for working with typeIndexes in Solid. This includes methods for getting and updating a user's public and private typeIndexes. |
 

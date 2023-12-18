@@ -4,7 +4,7 @@
 
 ## TypeIndexHelper.getFromTypeIndex() method
 
-Retrieves a list of instances from the typeIndex.
+Retrieves all instances of the given RDF class from the user's typeIndexe.
 
 **Signature:**
 
@@ -16,12 +16,14 @@ static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: 
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  webId | string | The WebID of the user. |
-|  rdfClass | string |  |
-|  fetch | any | The authenticated fetch function to use for HTTP requests. |
-|  isPrivate | true | Indicates if the instances are private.  {<!-- -->Promise<!-- -->&lt;<!-- -->string\[\]<!-- -->&gt;<!-- -->} - A promise that resolves to an array of instance URLs. |
+|  webId | string | The user's WebID |
+|  rdfClass | string | The RDF class to retrieve instances for |
+|  fetch | any | Authenticated fetch function |
+|  isPrivate | true | Whether the typeIndexe is private or public |
 
 **Returns:**
 
 Promise&lt;string\[\]&gt;
+
+Promise resolving to an array of instance URLs
 

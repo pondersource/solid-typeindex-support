@@ -4,7 +4,7 @@
 
 ## TypeIndexHelper.registerInTypeIndex() method
 
-Registers the given webId in the typeIndex.
+Registers a type registration in the user's typeIndexe.
 
 **Signature:**
 
@@ -16,14 +16,16 @@ static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClas
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  webId | string | The WebID of the user. |
-|  typeRegistrationTitle | string |  |
-|  rdfClass | string |  |
-|  fetch | any | The authenticated fetch function to use for HTTP requests. |
-|  indexUrl | string | The URL of the typeIndex. |
-|  isPrivate | boolean | Flag indicating if the typeIndex is private.  {<!-- -->Promise<SolidDataset>} The updated typeIndex dataset. |
+|  webId | string | The WebID of the user |
+|  typeRegistrationTitle | string | The title to use for the type registration |
+|  rdfClass | string | The RDF class that this registration is for |
+|  fetch | any | The authenticated fetch function |
+|  indexUrl | string | The URL of the index being registered |
+|  isPrivate | boolean | Whether to register in the private or public typeIndexe |
 
 **Returns:**
 
 Promise&lt;SolidDataset&gt;
+
+A Promise resolving to the updated typeIndexe dataset
 
