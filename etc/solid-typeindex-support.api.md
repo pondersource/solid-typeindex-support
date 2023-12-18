@@ -4,25 +4,11 @@
 
 ```ts
 
-import { NamedNode } from '@rdfjs/types';
 import { SolidDataset } from '@inrupt/solid-client';
-import { ThingPersisted } from '@inrupt/solid-client';
 
-// @public (undocumented)
+// @public
 export class TypeIndexHelper {
-    // @internal
-    static createTypeIndex(fetch: any, typeIndexUrl: string): Promise<SolidDataset | undefined>;
     static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: true): Promise<string[]>;
-    // @internal
-    static getMeProfile(webId: string, fetch: any): Promise<ThingPersisted | null>;
-    // @internal
-    static getTypeIndex(webId: string, fetch: any, isPrivate: boolean): Promise<NamedNode<string>>;
-    // @internal
-    static getTypeIndexFileName(isPrivate: boolean): "privateTypeIndex" | "publicTypeIndex";
-    // @internal
-    static getTypeIndexPredicate(isPrivate: boolean): string;
-    // @internal
-    static getTypeIndexURL(webId: string, typeIndexFileName: string): string;
     static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, indexUrl: string, isPrivate: boolean): Promise<SolidDataset>;
 }
 

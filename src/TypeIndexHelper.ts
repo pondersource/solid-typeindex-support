@@ -18,6 +18,11 @@ import { namedNode } from '@rdfjs/data-model';
 import { __foafPerson, __forClass, __privateTypeIndex, __publicTypeIndex, __schemaPerson, __solidTypeRegistration, __solid_instance, __solid_instance_container } from "./constants";
 import { NamedNode } from '@rdfjs/types'
 
+/**
+ * TypeIndexHelper provides helper methods for working with type indexes in Solid.
+ * This includes methods for getting and updating a user's public and private
+ * type indexes.
+ */
 export class TypeIndexHelper {
 
     /**
