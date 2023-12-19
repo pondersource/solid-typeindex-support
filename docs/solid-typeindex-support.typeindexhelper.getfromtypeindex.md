@@ -9,7 +9,7 @@ Retrieves all instances of the given RDF class from the user's typeIndexe.
 **Signature:**
 
 ```typescript
-static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: true): Promise<string[]>;
+static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: boolean): Promise<string[]>;
 ```
 
 ## Parameters
@@ -19,7 +19,7 @@ static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: 
 |  webId | string | The user's WebID |
 |  rdfClass | string | The RDF class to retrieve instances for |
 |  fetch | any | Authenticated fetch function |
-|  isPrivate | true | Whether the typeIndexe is private or public |
+|  isPrivate | boolean | Whether the typeIndexe is private or public |
 
 **Returns:**
 

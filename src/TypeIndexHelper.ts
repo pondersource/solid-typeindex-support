@@ -133,7 +133,7 @@ export class TypeIndexHelper {
      * @param isPrivate - Whether the typeIndexe is private or public
      * @returns Promise resolving to an array of instance URLs
      */
-    public static async getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: true): Promise<string[]> {
+    public static async getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: boolean): Promise<string[]> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
         const typeIndexDS = await getSolidDataset(typeIndex?.value, { fetch: fetch });
