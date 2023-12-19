@@ -128,7 +128,7 @@ export class TypeIndexHelper {
      * Retrieves all instances of the given RDF class from the user's typeIndexe.
      *
      * @param webId - The user's WebID
-     * @param rdfClass - The RDF class to retrieve instances for
+     * @param rdfClass - The RDF class to retrieve instances for (it has to be a valid URL)
      * @param fetch - Authenticated fetch function
      * @param isPrivate - Whether the typeIndexe is private or public
      * @returns Promise resolving to an array of instance URLs
@@ -179,7 +179,7 @@ export class TypeIndexHelper {
      *
      * @param webId - The WebID of the user
      * @param typeRegistrationTitle - The title to use for the type registration
-     * @param rdfClass - The RDF class that this registration is for
+     * @param rdfClass - The RDF class that this registration is for (it has to be a valid URL)
      * @param fetch - The authenticated fetch function
      * @param indexUrl - The URL of the index being registered
      * @param isPrivate - Whether to register in the private or public typeIndexe

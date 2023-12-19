@@ -18,7 +18,7 @@ static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClas
 |  --- | --- | --- |
 |  webId | string | The WebID of the user |
 |  typeRegistrationTitle | string | The title to use for the type registration |
-|  rdfClass | string | The RDF class that this registration is for |
+|  rdfClass | string | The RDF class that this registration is for (it has to be a valid URL) |
 |  fetch | any | The authenticated fetch function |
 |  indexUrl | string | The URL of the index being registered |
 |  isPrivate | boolean | Whether to register in the private or public typeIndexe |
