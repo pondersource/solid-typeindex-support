@@ -11,19 +11,19 @@ npm run test
 ```
 
 ## Dependencies:
-`@inrupt/solid-client`: This module provides methods for interacting with the Solid Pod.
-`@inrupt/vocab-common-rdf`: This module provides methods for working with RDF data.
-`@rdfjs/data-model`: This module provides methods for working with RDF data.
+- `@inrupt/solid-client`: This module provides methods for interacting with the Solid Pod.
+- `@inrupt/vocab-common-rdf`: This module provides methods for working with RDF data.
+- `@rdfjs/data-model`: This module provides methods for working with RDF data.
 
 
 ## Usage
 
 ```bash
-mpm install solid-typeindex-support
+mpm install @rezasoltani/solid-typeindex-support
 ```
 
 ```typescript
-import { TypeIndexHelper } from "solid-typeindex-support";
+import { TypeIndexHelper } from "@rezasoltani/solid-typeindex-support";
 ```
 
 ```typescript
