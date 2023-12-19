@@ -175,10 +175,10 @@ export class TypeIndexHelper {
 
 
     /**
-     * Registers a type registration in the user's typeIndexe.
+     * Registers a typeRegistration in the user's typeIndexe.
      *
      * @param webId - The WebID of the user
-     * @param typeRegistrationTitle - The title to use for the type registration
+     * @param typeRegistrationTitle - The title to use for the typeRegistration inside the typeIndex, 
      * @param rdfClass - The RDF class that this registration is for (it has to be a valid URL)
      * @param fetch - The authenticated fetch function
      * @param indexUrl - The URL of the index being registered
