@@ -9,7 +9,7 @@ import { SolidDataset } from '@inrupt/solid-client';
 // @public
 export class TypeIndexHelper {
     static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: boolean): Promise<string[]>;
-    static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, indexUrl: string, isPrivate: boolean): Promise<SolidDataset>;
+    static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, solidInstanceUrl: string, isPrivate: boolean): Promise<SolidDataset>;
 }
 
 // (No @packageDocumentation comment for this package)

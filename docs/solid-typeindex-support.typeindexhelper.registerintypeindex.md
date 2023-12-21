@@ -4,12 +4,12 @@
 
 ## TypeIndexHelper.registerInTypeIndex() method
 
-Registers a type registration in the user's typeIndexe.
+Registers a typeRegistration in the user's typeIndexe.
 
 **Signature:**
 
 ```typescript
-static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, indexUrl: string, isPrivate: boolean): Promise<SolidDataset>;
+static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, solidInstanceUrl: string, isPrivate: boolean): Promise<SolidDataset>;
 ```
 
 ## Parameters
@@ -17,10 +17,10 @@ static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClas
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  webId | string | The WebID of the user |
-|  typeRegistrationTitle | string | The title to use for the type registration |
-|  rdfClass | string | The RDF class that this registration is for (it has to be a valid URL) |
+|  typeRegistrationTitle | string | The title to use for the typeRegistration inside the typeIndex, |
+|  rdfClass | string | The RDF class that this registration is for, as a Valid URL |
 |  fetch | any | The authenticated fetch function |
-|  indexUrl | string | The URL of the index being registered |
+|  solidInstanceUrl | string | The URL of the solid:instance being registered |
 |  isPrivate | boolean | Whether to register in the private or public typeIndexe |
 
 **Returns:**

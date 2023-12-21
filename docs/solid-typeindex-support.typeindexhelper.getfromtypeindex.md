@@ -17,7 +17,7 @@ static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  webId | string | The user's WebID |
-|  rdfClass | string | The RDF class to retrieve instances for (it has to be a valid URL) |
+|  rdfClass | string | The RDF class to retrieve instances for, as a Valid URL |
 |  fetch | any | Authenticated fetch function |
 |  isPrivate | boolean | Whether the typeIndexe is private or public |
 

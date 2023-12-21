@@ -17,5 +17,5 @@ export declare class TypeIndexHelper
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [getFromTypeIndex(webId, rdfClass, fetch, isPrivate)](./solid-typeindex-support.typeindexhelper.getfromtypeindex.md) | <code>static</code> | Retrieves all instances of the given RDF class from the user's typeIndexe. |
-|  [registerInTypeIndex(webId, typeRegistrationTitle, rdfClass, fetch, indexUrl, isPrivate)](./solid-typeindex-support.typeindexhelper.registerintypeindex.md) | <code>static</code> | Registers a type registration in the user's typeIndexe. |
+|  [registerInTypeIndex(webId, typeRegistrationTitle, rdfClass, fetch, solidInstanceUrl, isPrivate)](./solid-typeindex-support.typeindexhelper.registerintypeindex.md) | <code>static</code> | Registers a typeRegistration in the user's typeIndexe. |
 
