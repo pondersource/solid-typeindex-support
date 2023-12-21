@@ -128,7 +128,7 @@ export class TypeIndexHelper {
      * Retrieves all instances of the given RDF class from the user's typeIndexe.
      *
      * @param webId - The user's WebID
-     * @param rdfClass - The RDF class to retrieve instances for (it has to be a valid URL)
+     * @param rdfClass - The RDF class to retrieve instances for, as a Valid URL
      * @param fetch - Authenticated fetch function
      * @param isPrivate - Whether the typeIndexe is private or public
      * @returns Promise resolving to an array of instance URLs
@@ -179,9 +179,9 @@ export class TypeIndexHelper {
      *
      * @param webId - The WebID of the user
      * @param typeRegistrationTitle - The title to use for the typeRegistration inside the typeIndex, 
-     * @param rdfClass - The RDF class that this registration is for (it has to be a valid URL)
+     * @param rdfClass - The RDF class that this registration is for, as a Valid URL
      * @param fetch - The authenticated fetch function
-     * @param indexUrl - The URL of the index being registered
+     * @param solidInstanceUrl - The URL of the solid:instance being registered
      * @param isPrivate - Whether to register in the private or public typeIndexe
      * @returns A Promise resolving to the updated typeIndexe dataset
      */
@@ -190,7 +190,7 @@ export class TypeIndexHelper {
         typeRegistrationTitle: string,
         rdfClass: string,
         fetch: any,
-        indexUrl: string,
+        solidInstanceUrl: string,
         isPrivate: boolean
     ): Promise<SolidDataset> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
@@ -203,7 +203,7 @@ export class TypeIndexHelper {
             createThing({ name: typeRegistrationTitle })
         )
             .addNamedNode(__forClass, namedNode(rdfClass))
-            .addNamedNode(__solid_instance, namedNode(indexUrl))
+            .addNamedNode(__solid_instance, namedNode(solidInstanceUrl))
             .addUrl(RDF.type, __solidTypeRegistration)
             .build();
 

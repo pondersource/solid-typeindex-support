@@ -25,12 +25,12 @@ mpm install @rezasoltani/solid-typeindex-support
 import { TypeIndexHelper } from '@rezasoltani/solid-typeindex-support';
 
 const webId = 'https://example.com/profile#me';
-const indexUrl = 'https://example.com/type-index.ttl';
+const solidInstanceUrl = 'https://example.com/type-index.ttl';
 const rdfClass = "http://schema.org/Book";
 
 const instances = await TypeIndexHelper.getFromTypeIndex(webId, rdfClass, fetch, true);
 
-const updatedIndex = await TypeIndexHelper.registerInTypeIndex(webId, 'My Book List', rdfClass, fetch, indexUrl, true);
+const updatedIndex = await TypeIndexHelper.registerInTypeIndex(webId, 'My Book List', rdfClass, fetch, solidInstanceUrl, true);
 
 ```
 
@@ -46,7 +46,7 @@ const updatedIndex = await TypeIndexHelper.registerInTypeIndex(webId, 'My Book L
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  getFromTypeIndex(webId, rdfClass, fetch, isPrivate) | <code>static</code> | Retrieves all instances of the given RDF class from the user's typeIndexe. |
-|  registerInTypeIndex(webId, typeRegistrationTitle, rdfClass, fetch, indexUrl, isPrivate) | <code>static</code> | Registers a type registration in the user's typeIndexe. |
+|  registerInTypeIndex(webId, typeRegistrationTitle, rdfClass, fetch, solidInstanceUrl, isPrivate) | <code>static</code> | Registers a type registration in the user's typeIndexe. |
 
 
 
@@ -83,7 +83,7 @@ Registers a type registration in the user's typeIndexe.
 **Signature:**
 
 ```typescript
-static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, indexUrl: string, isPrivate: boolean): Promise<SolidDataset>;
+static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, solidInstanceUrl: string, isPrivate: boolean): Promise<SolidDataset>;
 ```
 
 ## Parameters
@@ -94,7 +94,7 @@ static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClas
 |  typeRegistrationTitle | string | The title to use for the type registration |
 |  rdfClass | string | The RDF class that this registration is for |
 |  fetch | any | The authenticated fetch function |
-|  indexUrl | string | The URL of the index being registered |
+|  solidInstanceUrl | string | The URL of the index being registered |
 |  isPrivate | boolean | Whether to register in the private or public typeIndexe |
 
 **Returns:**
