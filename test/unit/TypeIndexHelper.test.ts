@@ -216,23 +216,11 @@ describe('createTypeIndex', () => {
     });
 })
 
-
-describe('getTypeIndexFileName', () => {
-    it('should return "privateTypeIndex" if isPrivate is true', () => {
-        const result = TypeIndexHelper.getTypeIndexFileName(true);
-        expect(result).toBe("privateTypeIndex");
-    });
-
-    it('should return "publicTypeIndex" if isPrivate is false', () => {
-        const result = TypeIndexHelper.getTypeIndexFileName(false);
-        expect(result).toBe("publicTypeIndex");
-    });
-});
-
 describe("getTypeIndexPredicate", () => {
     it("returns __privateTypeIndex if isPrivate is true", () => {
         const isPrivate = true;
         const result = TypeIndexHelper.getTypeIndexPredicate(isPrivate);
+        console.log("🚀 ~ file: TypeIndexHelper.test.ts:223 ~ it ~ result:", result)
         expect(result).toBe(__privateTypeIndex);
     });
 
@@ -244,23 +232,21 @@ describe("getTypeIndexPredicate", () => {
 });
 
 
-describe("getTypeIndexURL", () => {
-    it("should return the correct URL when given a valid webId and typeIndexFileName", () => {
+describe("getDefaultTypeIndexURL", () => {
+    it("should return the correct URL when given a valid webId and ", () => {
         const webId = "https://example.com/profile/user123";
-        const typeIndexFileName = "typeIndex";
-        const expectedURL = "https://example.com/settings/typeIndex.ttl";
+        const expectedURL = "https://example.com/settings/privateTypeIndex.ttl";
 
-        const result = TypeIndexHelper.getTypeIndexURL(webId, typeIndexFileName);
+        const result = TypeIndexHelper.getDefaultTypeIndexURL(webId, true);
 
         expect(result).toEqual(expectedURL);
     });
 
     it("should return the correct URL when given a webId with a trailing slash and typeIndexFileName", () => {
         const webId = "https://example.com/profile/user123/";
-        const typeIndexFileName = "typeIndex";
-        const expectedURL = "https://example.com/settings/typeIndex.ttl";
+        const expectedURL = "https://example.com/settings/privateTypeIndex.ttl";
 
-        const result = TypeIndexHelper.getTypeIndexURL(webId, typeIndexFileName);
+        const result = TypeIndexHelper.getDefaultTypeIndexURL(webId, true);
 
         expect(result).toEqual(expectedURL);
     });

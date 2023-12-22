@@ -39,7 +39,7 @@ export class TypeIndexHelper {
         webId: string,
         fetch: any
     ): Promise<ThingPersisted | null> {
-        const profileDS = await getSolidDataset(webId, { fetch: fetch });
+        const profileDS = await getSolidDataset(webId, { fetch });
 
         let profileMe = getThing(profileDS, webId);
 
@@ -54,7 +54,7 @@ export class TypeIndexHelper {
             const updatedProfileDS = await saveSolidDatasetAt(
                 webId!,
                 updatedProfile,
-                { fetch: fetch }
+                { fetch }
             );
 
             profileMe = getThing(updatedProfileDS, webId);
@@ -98,7 +98,7 @@ export class TypeIndexHelper {
             const updatedTypeIndexDS = setThing(typeIndexDS!, updatedProfileMe);
 
             await saveSolidDatasetAt(typeIndexUrl, updatedTypeIndexDS, {
-                fetch: fetch,
+                fetch,
             });
 
             return namedNode(typeIndexUrl);
@@ -114,7 +114,7 @@ export class TypeIndexHelper {
 
             const updatedProfileDS = setThing(profileDS, profileMeThing);
 
-            await saveSolidDatasetAt(webId, updatedProfileDS, { fetch: fetch });
+            await saveSolidDatasetAt(webId, updatedProfileDS, { fetch });
 
             return namedNode(typeIndexUrl);
         }
@@ -132,7 +132,7 @@ export class TypeIndexHelper {
     public static async getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: boolean): Promise<string[]> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
-        const typeIndexDS = await getSolidDataset(typeIndex?.value, { fetch: fetch });
+        const typeIndexDS = await getSolidDataset(typeIndex?.value, { fetch });
 
         const allRegisteries = getThingAll(typeIndexDS);
 
@@ -155,7 +155,7 @@ export class TypeIndexHelper {
 
         const instanceContainersPromises = instanceContainers.map(async (instanceContainer) => {
 
-            const instanceContainerDS = await getSolidDataset(instanceContainer, { fetch: fetch })
+            const instanceContainerDS = await getSolidDataset(instanceContainer, { fetch })
 
             const all = getThingAll(instanceContainerDS); // all files under the instanceContainer
 
@@ -192,7 +192,7 @@ export class TypeIndexHelper {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
         const typeIndexDS = await getSolidDataset(typeIndex?.value, {
-            fetch: fetch,
+            fetch,
         });
 
         const registeryThing = buildThing(
@@ -206,7 +206,7 @@ export class TypeIndexHelper {
         const updatedTypeIndexDS = setThing(typeIndexDS, registeryThing);
 
         return await saveSolidDatasetAt(typeIndex?.value, updatedTypeIndexDS, {
-            fetch: fetch,
+            fetch,
         });
     }
 
@@ -232,7 +232,7 @@ export class TypeIndexHelper {
                 body: `@prefix solid: <http://www.w3.org/ns/solid/terms#>.\n\n<> a solid:TypeIndex, solid:UnlistedDocument.`,
             });
 
-            return await getSolidDataset(typeIndexUrl, { fetch: fetch });
+            return await getSolidDataset(typeIndexUrl, { fetch });
         } catch (error) { }
     }
 
