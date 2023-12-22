@@ -80,11 +80,7 @@ export class TypeIndexHelper {
         const profileMe = await this.getMeProfile(webId, fetch);
 
         const typeIndexPredicate = TypeIndexHelper.getTypeIndexPredicate(isPrivate);
-        const typeIndexFileName = TypeIndexHelper.getTypeIndexFileName(isPrivate);
-        const typeIndexUrl = TypeIndexHelper.getTypeIndexURL(
-            webId,
-            typeIndexFileName
-        );
+        const typeIndexUrl = TypeIndexHelper.getDefaultTypeIndexURL(webId, isPrivate);
 
         if (profileMe) {
             let typeIndex = getNamedNode(profileMe, typeIndexPredicate);
@@ -107,8 +103,8 @@ export class TypeIndexHelper {
 
             return namedNode(typeIndexUrl);
         } else {
-            const typeIndexDS = await this.createTypeIndex(fetch, typeIndexUrl);
-            const profileDS = await getSolidDataset(webId, { fetch: fetch });
+            await this.createTypeIndex(fetch, typeIndexUrl);
+            const profileDS = await getSolidDataset(webId, { fetch });
 
             const profileMeThing = buildThing(createThing({ name: "me" }))
                 .addNamedNode(typeIndexPredicate, namedNode(typeIndexUrl))
@@ -241,20 +237,6 @@ export class TypeIndexHelper {
     }
 
     /**
-     * Returns the name of the typeIndexe file based on the isPrivate flag.
-     *
-     * @param isPrivate - Whether the typeIndexe file should be private or public.
-     * @returns The name of the typeIndexe file - either "privateTypeIndex" or "publicTypeIndex".
-     * @internal
-     */
-    public static getTypeIndexFileName(
-        isPrivate: boolean
-    ): "privateTypeIndex" | "publicTypeIndex" {
-        return isPrivate ? "privateTypeIndex" : "publicTypeIndex";
-    }
-
-
-    /**
      * Returns the predicate to use for the typeIndexe based on whether it is private or public.
      *
      * @param isPrivate - Whether the typeIndexe is private or public.
@@ -270,14 +252,14 @@ export class TypeIndexHelper {
      * Generates the URL for the given user's typeIndexe file.
      *
      * @param webId - The user's WebID URL
-     * @param typeIndexFileName - The name of the typeIndexe file
+     * @param isPrivate - Whether the typeIndexe is private or public.
      * @returns The full URL for the typeIndexe file in the user's /settings/ folder
      * @internal
      */
-    public static getTypeIndexURL(
+    public static getDefaultTypeIndexURL(
         webId: string,
-        typeIndexFileName: string
+        isPrivate: boolean,
     ): string {
-        return `${webId.split("/profile")[0]}/settings/${typeIndexFileName}.ttl`;
+        return `${webId.split("/profile")[0]}/settings/${isPrivate ? "privateTypeIndex" : "publicTypeIndex"}.ttl`;
     }
 }
