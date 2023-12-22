@@ -86,8 +86,8 @@ describe("getTypeIndex", () => {
         jest.spyOn(inruptSOLIDClient, 'getThing').mockResolvedValue(loadFixture("me.json"));
         jest.spyOn(inruptSOLIDClient, 'getNamedNode').mockReturnValue(null);
         jest.spyOn(inruptSOLIDClient, 'addNamedNode').mockResolvedValue(loadFixture("me.json"));
-        jest.spyOn(inruptSOLIDClient, 'setThing').mockResolvedValue(loadFixture("privateTypeIndexDS.json"));
-        jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValue(loadFixture("privateTypeIndexDS.json"));
+        jest.spyOn(inruptSOLIDClient, 'setThing').mockResolvedValue(loadFixture("profileDS.json"));
+        jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValue(loadFixture("profileDS.json"));
 
         // Act
         const result = await TypeIndexHelper.getTypeIndex(session.info.webId, session.fetch, true);
