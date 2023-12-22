@@ -82,12 +82,14 @@ export class TypeIndexHelper {
         const typeIndexPredicate = TypeIndexHelper.getTypeIndexPredicate(isPrivate);
         const typeIndexUrl = TypeIndexHelper.getDefaultTypeIndexURL(webId, isPrivate);
 
+        const profileDS = await getSolidDataset(webId, { fetch });
+
         if (profileMe) {
             let typeIndex = getNamedNode(profileMe, typeIndexPredicate);
 
             if (typeIndex) return typeIndex;
 
-            const typeIndexDS = await this.createTypeIndex(fetch, typeIndexUrl);
+            await this.createTypeIndex(fetch, typeIndexUrl);
 
             const updatedProfileMe = addNamedNode(
                 profileMe,
@@ -95,16 +97,13 @@ export class TypeIndexHelper {
                 namedNode(typeIndexUrl)
             );
 
-            const updatedTypeIndexDS = setThing(typeIndexDS!, updatedProfileMe);
+            const updatedProfileDS = setThing(profileDS, updatedProfileMe);
 
-            await saveSolidDatasetAt(typeIndexUrl, updatedTypeIndexDS, {
-                fetch,
-            });
+            await saveSolidDatasetAt(webId, updatedProfileDS, { fetch });
 
             return namedNode(typeIndexUrl);
         } else {
             await this.createTypeIndex(fetch, typeIndexUrl);
-            const profileDS = await getSolidDataset(webId, { fetch });
 
             const profileMeThing = buildThing(createThing({ name: "me" }))
                 .addNamedNode(typeIndexPredicate, namedNode(typeIndexUrl))
