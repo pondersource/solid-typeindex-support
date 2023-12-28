@@ -9,7 +9,10 @@ Retrieves all instances of the given RDF class from the user's typeIndexe.
 **Signature:**
 
 ```typescript
-static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: boolean): Promise<string[]>;
+static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: boolean): Promise<{
+        instanceContainers: string[];
+        instances: string[];
+    }>;
 ```
 
 ## Parameters
@@ -23,7 +26,7 @@ static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: 
 
 **Returns:**
 
-Promise&lt;string\[\]&gt;
+Promise&lt;{ instanceContainers: string\[\]; instances: string\[\]; }&gt;
 
-Promise resolving to an array of instance URLs
+Promise resolving to an object containing instance URLs and instanceContainers URLs.
 
