@@ -126,7 +126,7 @@ export class TypeIndexHelper {
      * @param rdfClass - The RDF class to retrieve instances for, as a Valid URL
      * @param fetch - Authenticated fetch function
      * @param isPrivate - Whether the typeIndexe is private or public
-     * @returns Promise resolving to an array of instance URLs
+     * @returns Promise resolving to an object containing instance URLs and instanceContainers URLs.
      */
     public static async getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: boolean): Promise<{ instanceContainers: string[]; instances: string[]; }> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
