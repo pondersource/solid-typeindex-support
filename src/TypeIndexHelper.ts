@@ -158,7 +158,7 @@ export class TypeIndexHelper {
 
             const all = getThingAll(instanceContainerDS); // all files under the instanceContainer
 
-            const urls = all.map(x => x.url) // all file urls
+            const urls = all.filter(x => x.url !== "").map(x => x.url) // all file urls
 
             return urls.filter(url => url !== instanceContainer) // remove the instanceContainer itself, only file urls needed;
         })
@@ -180,7 +180,8 @@ export class TypeIndexHelper {
      * @param typeRegistrationTitle - The title to use for the typeRegistration inside the typeIndex, 
      * @param rdfClass - The RDF class that this registration is for, as a Valid URL
      * @param fetch - The authenticated fetch function
-     * @param solidInstanceUrl - The URL of the solid:instance being registered
+     * @param registeryUrl - The URL of the solid:instance or solid:instanceContainer being registered
+     * @param isContainer - Whether to register a solid:instanceContainer or a solid:instance
      * @param isPrivate - Whether to register in the private or public typeIndexe
      * @returns A Promise resolving to the updated typeIndexe dataset
      */
@@ -189,8 +190,9 @@ export class TypeIndexHelper {
         typeRegistrationTitle: string,
         rdfClass: string,
         fetch: any,
-        solidInstanceUrl: string,
-        isPrivate: boolean
+        registeryUrl: string,
+        isContainer: boolean,
+        isPrivate: boolean,
     ): Promise<SolidDataset> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
@@ -202,7 +204,7 @@ export class TypeIndexHelper {
             createThing({ name: typeRegistrationTitle })
         )
             .addNamedNode(__forClass, namedNode(rdfClass))
-            .addNamedNode(__solid_instance, namedNode(solidInstanceUrl))
+            .addNamedNode(isContainer ? __solid_instance_container : __solid_instance, namedNode(registeryUrl))
             .addUrl(RDF.type, __solidTypeRegistration)
             .build();
 

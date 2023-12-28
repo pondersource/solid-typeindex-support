@@ -12,7 +12,7 @@ export class TypeIndexHelper {
         instanceContainers: string[];
         instances: string[];
     }>;
-    static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, solidInstanceUrl: string, isPrivate: boolean): Promise<SolidDataset>;
+    static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, registeryUrl: string, isContainer: boolean, isPrivate: boolean): Promise<SolidDataset>;
 }
 
 // (No @packageDocumentation comment for this package)

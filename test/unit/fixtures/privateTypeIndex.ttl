@@ -7,14 +7,6 @@
 
 <> a solid:TypeIndex, solid:UnlistedDocument.
 
-:2bdc3da9-e0f0-48b5-b1aa-8123bb468a92
-    a solid:TypeRegistration;
-    solid:forClass schem:WatchAction;
-    solid:instanceContainer mov: .
-:5677e892-fad5-4039-8108-4f4ed2640b98
-    a solid:TypeRegistration;
-    solid:forClass schem:Movie;
-    solid:instanceContainer mov: .
 :bookmarks_registery
     a solid:TypeRegistration;
     solid:forClass bookm:Bookmark;

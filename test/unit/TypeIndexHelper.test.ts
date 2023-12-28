@@ -118,7 +118,8 @@ describe('getFromTypeIndex', () => {
 
         const result = await TypeIndexHelper.getFromTypeIndex(session.info.webId, BOOKMARK.Bookmark, session.fetch, isPrivate);
 
-        expect(result).toEqual([]);
+        expect(result.instances).toEqual([]);
+        expect(result.instanceContainers).toEqual([]);
     });
     it('should return an array of instances', async () => {
         const isPrivate = true;
@@ -128,7 +129,8 @@ describe('getFromTypeIndex', () => {
 
         const result = await TypeIndexHelper.getFromTypeIndex(session.info.webId, BOOKMARK.Bookmark, session.fetch, isPrivate);
 
-        expect(result.length).toBeGreaterThan(0);
+        expect(result.instances.length).toBeGreaterThan(0);
+        expect(result.instanceContainers.length).toBeGreaterThan(0);
     });
 
 });
@@ -139,13 +141,14 @@ describe("registerInTypeIndex", () => {
     // });
     test('Register in typeIndex - Private typeIndex', async () => {
         const isPrivate = true;
+        const isContainer = false;
 
         jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValueOnce(namedNode(privateTypeIndexPath));
         jest.spyOn(inruptSOLIDClient, "getSolidDataset").mockResolvedValue(loadFixture("privateTypeIndexDS.json"));
         jest.spyOn(inruptSOLIDClient, 'setThing').mockReturnValueOnce(loadFixture("privateTypeIndexDS.json"));
         jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValueOnce(loadFixture("privateTypeIndexDS.json"));
 
-        const res = await TypeIndexHelper.registerInTypeIndex(session.info.webId, "bookmarks", BOOKMARK.bookmarks, session.fetch, indexUrl, isPrivate);
+        const res = await TypeIndexHelper.registerInTypeIndex(session.info.webId, "bookmarks", BOOKMARK.bookmarks, session.fetch, indexUrl, isContainer, isPrivate);
 
         expect(res).toEqual(loadFixture("privateTypeIndexDS.json"));
         expect(TypeIndexHelper.getTypeIndex).toHaveBeenCalledWith(session.info.webId, session.fetch, isPrivate);
@@ -156,13 +159,14 @@ describe("registerInTypeIndex", () => {
 
     test('Register in typeIndex - Public typeIndex', async () => {
         const isPrivate = false;
+        const isContainer = false;
 
         jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValueOnce(namedNode(privateTypeIndexPath));
         jest.spyOn(inruptSOLIDClient, "getSolidDataset").mockResolvedValue(loadFixture("publicTypeIndexDS.json"));
         jest.spyOn(inruptSOLIDClient, 'setThing').mockReturnValueOnce(loadFixture("publicTypeIndexDS.json"));
         jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValueOnce(loadFixture("publicTypeIndexDS.json"));
 
-        const res = await TypeIndexHelper.registerInTypeIndex(session.info.webId, "bookmarks", BOOKMARK.bookmarks, session.fetch, indexUrl, isPrivate);
+        const res = await TypeIndexHelper.registerInTypeIndex(session.info.webId, "bookmarks", BOOKMARK.bookmarks, session.fetch, indexUrl, isContainer, isPrivate);
 
         expect(res).toEqual(loadFixture("publicTypeIndexDS.json"));
         expect(TypeIndexHelper.getTypeIndex).toHaveBeenCalledWith(session.info.webId, session.fetch, isPrivate);
@@ -220,7 +224,6 @@ describe("getTypeIndexPredicate", () => {
     it("returns __privateTypeIndex if isPrivate is true", () => {
         const isPrivate = true;
         const result = TypeIndexHelper.getTypeIndexPredicate(isPrivate);
-        console.log("🚀 ~ file: TypeIndexHelper.test.ts:223 ~ it ~ result:", result)
         expect(result).toBe(__privateTypeIndex);
     });
 

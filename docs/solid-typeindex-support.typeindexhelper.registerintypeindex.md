@@ -9,7 +9,7 @@ Registers a typeRegistration in the user's typeIndexe.
 **Signature:**
 
 ```typescript
-static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, solidInstanceUrl: string, isPrivate: boolean): Promise<SolidDataset>;
+static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClass: string, fetch: any, registeryUrl: string, isContainer: boolean, isPrivate: boolean): Promise<SolidDataset>;
 ```
 
 ## Parameters
@@ -20,7 +20,8 @@ static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClas
 |  typeRegistrationTitle | string | The title to use for the typeRegistration inside the typeIndex, |
 |  rdfClass | string | The RDF class that this registration is for, as a Valid URL |
 |  fetch | any | The authenticated fetch function |
-|  solidInstanceUrl | string | The URL of the solid:instance being registered |
+|  registeryUrl | string | The URL of the solid:instance or solid:instanceContainer being registered |
+|  isContainer | boolean | Whether to register a solid:instanceContainer or a solid:instance |
 |  isPrivate | boolean | Whether to register in the private or public typeIndexe |
 
 **Returns:**
