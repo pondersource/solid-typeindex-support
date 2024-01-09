@@ -1,0 +1,16 @@
+{
+    "type": "Dataset",
+    "graphs": {
+        "default": {}
+    },
+    "internal_changeLog": {
+        "additions": [],
+        "deletions": []
+    },
+    "internal_resourceInfo": {
+        "sourceIri": "https://fake-pod.net/bookmarks/",
+        "isRawData": false,
+        "contentType": "text/plain; charset=utf-8",
+        "linkedResources": {}
+    }
+}
