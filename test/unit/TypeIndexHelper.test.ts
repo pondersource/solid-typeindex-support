@@ -146,6 +146,7 @@ describe("registerInTypeIndex", () => {
         jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValueOnce(namedNode(privateTypeIndexPath));
         jest.spyOn(inruptSOLIDClient, "getSolidDataset").mockResolvedValue(loadFixture("privateTypeIndexDS.json"));
         jest.spyOn(inruptSOLIDClient, 'setThing').mockReturnValueOnce(loadFixture("privateTypeIndexDS.json"));
+        jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValueOnce(loadFixture("createRegisteryDS.json"));
         jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValueOnce(loadFixture("privateTypeIndexDS.json"));
 
         const res = await TypeIndexHelper.registerInTypeIndex(session.info.webId, "bookmarks", BOOKMARK.bookmarks, session.fetch, indexUrl, isContainer, isPrivate);
@@ -164,6 +165,7 @@ describe("registerInTypeIndex", () => {
         jest.spyOn(TypeIndexHelper, 'getTypeIndex').mockResolvedValueOnce(namedNode(privateTypeIndexPath));
         jest.spyOn(inruptSOLIDClient, "getSolidDataset").mockResolvedValue(loadFixture("publicTypeIndexDS.json"));
         jest.spyOn(inruptSOLIDClient, 'setThing').mockReturnValueOnce(loadFixture("publicTypeIndexDS.json"));
+        jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValueOnce(loadFixture("createRegisteryDS.json"));
         jest.spyOn(inruptSOLIDClient, 'saveSolidDatasetAt').mockResolvedValueOnce(loadFixture("publicTypeIndexDS.json"));
 
         const res = await TypeIndexHelper.registerInTypeIndex(session.info.webId, "bookmarks", BOOKMARK.bookmarks, session.fetch, indexUrl, isContainer, isPrivate);

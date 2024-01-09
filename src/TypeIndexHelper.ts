@@ -3,6 +3,7 @@ import {
     ThingPersisted,
     addNamedNode,
     buildThing,
+    createSolidDataset,
     createThing,
     getNamedNode,
     getSolidDataset,
@@ -196,13 +197,9 @@ export class TypeIndexHelper {
     ): Promise<SolidDataset> {
         const typeIndex = await this.getTypeIndex(webId, fetch, isPrivate);
 
-        const typeIndexDS = await getSolidDataset(typeIndex?.value, {
-            fetch,
-        });
+        const typeIndexDS = await getSolidDataset(typeIndex?.value, { fetch });
 
-        const registeryThing = buildThing(
-            createThing({ name: typeRegistrationTitle })
-        )
+        const registeryThing = buildThing(createThing({ name: typeRegistrationTitle }))
             .addNamedNode(__forClass, namedNode(rdfClass))
             .addNamedNode(isContainer ? __solid_instance_container : __solid_instance, namedNode(registeryUrl))
             .addUrl(RDF.type, __solidTypeRegistration)
@@ -210,9 +207,9 @@ export class TypeIndexHelper {
 
         const updatedTypeIndexDS = setThing(typeIndexDS, registeryThing);
 
-        return await saveSolidDatasetAt(typeIndex?.value, updatedTypeIndexDS, {
-            fetch,
-        });
+        await saveSolidDatasetAt(registeryUrl, createSolidDataset(), { fetch });
+
+        return await saveSolidDatasetAt(typeIndex?.value, updatedTypeIndexDS, { fetch });
     }
 
 
