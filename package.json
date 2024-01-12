@@ -1,6 +1,6 @@
 {
   "name": "@rezasoltani/solid-typeindex-support",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -10,7 +10,7 @@
     "build": "npm run clean && tsc",
     "api-report": "api-extractor run --local",
     "api-docs": "api-documenter markdown -i temp -o docs",
-    "build-with-docs": "npm run build && npm run api-report && npm run api-docs",  
+    "build-with-docs": "npm run build && npm run api-report && npm run api-docs",
     "test": "jest"
   },
   "repository": {
