@@ -1,0 +1,10 @@
+.github/
+doc/
+etc/
+node_modules/
+src/
+test/
+.gitignore
+api-extractor.json
+jest.config.js
+tsconfig.json
