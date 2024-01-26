@@ -72,7 +72,7 @@ static getFromTypeIndex(webId: string, rdfClass: string, fetch: any, isPrivate: 
 
 **Returns:**
 
-Promise&lt;string\[\]&gt;
+Promise&lt;{ instances: string\[\] }&gt;
 
 
 
