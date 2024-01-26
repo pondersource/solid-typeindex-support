@@ -45,8 +45,8 @@ const updatedIndex = await TypeIndexHelper.registerInTypeIndex(webId, 'My Book L
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  getFromTypeIndex(webId, rdfClass, fetch, isPrivate) | <code>static</code> | Retrieves all instances of the given RDF class from the user's typeIndexe. |
-|  registerInTypeIndex(webId, typeRegistrationTitle, rdfClass, fetch, solidInstanceUrl, isPrivate) | <code>static</code> | Registers a type registration in the user's typeIndexe. |
+|  getFromTypeIndex(webId, rdfClass, fetch, isContainer, isPrivate) | <code>static</code> | Retrieves all instances of the given RDF class from one of the user's typeIndexes. |
+|  registerInTypeIndex(webId, typeRegistrationTitle, rdfClass, fetch, solidInstanceUrl, isPrivate) | <code>static</code> | Registers a type registration in one of the user's typeIndexes. |
 
 
 
@@ -95,6 +95,7 @@ static registerInTypeIndex(webId: string, typeRegistrationTitle: string, rdfClas
 |  rdfClass | string | The RDF class that this registration is for |
 |  fetch | any | The authenticated fetch function |
 |  solidInstanceUrl | string | The URL of the index being registered |
+| isContainer | boolean | Whether to register a `solid:instanceContainer` or a `solid:instance` |
 |  isPrivate | boolean | Whether to register in the private or public typeIndexe |
 
 **Returns:**
